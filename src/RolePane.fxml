@@ -4,14 +4,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="rolePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SceneSwitcher">
+<Pane fx:id="rolePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Button fx:id="btnManager" layoutX="120.0" layoutY="150.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="150.0" text="Manager" textAlignment="CENTER">
+      <Button fx:id="btnManager" layoutX="120.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchToManager" prefHeight="100.0" prefWidth="150.0" text="Manager" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnEmployee" layoutX="330.0" layoutY="150.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="150.0" text="Personale" textAlignment="CENTER">
+      <Button fx:id="btnEmployee" layoutX="330.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchToEmpMenu" prefHeight="100.0" prefWidth="150.0" text="Personale" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
