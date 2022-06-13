@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label text="Biglietteria" BorderPane.alignment="CENTER_LEFT">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Ricerca">
+               <content>
+                  <SplitPane dividerPositions="0.3016666666666667" prefHeight="200.0" prefWidth="200.0">
+                     <items>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="134.0" text="Codice fiscale" />
+                              <TextField layoutX="14.0" layoutY="151.0" promptText="Inserisci il codice fiscale" />
+                              <Button layoutX="74.0" layoutY="183.0" mnemonicParsing="false" text="Cerca biglietti" />
+                              <Label layoutX="14.0" layoutY="233.0" text="Codice ordine" />
+                              <TextField layoutX="14.0" layoutY="250.0" promptText="Inserisci il codice ordine" />
+                              <Button layoutX="77.0" layoutY="282.0" mnemonicParsing="false" text="Cerca ordine" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="341.0" prefWidth="344.0">
+                           <children>
+                              <TableView layoutX="14.0" layoutY="14.0" prefHeight="341.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="147.0" text="Codice fiscale" />
+                                  <TableColumn prefWidth="77.0" text="Nome" />
+                                    <TableColumn prefWidth="83.0" text="Cognome" />
+                                    <TableColumn prefWidth="85.0" text="Codice ordine" />
+                                    <TableColumn minWidth="7.0" prefWidth="93.0" text="Tipo biglietto" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+          <Tab text="to delete">
+               <content>
+                  <SplitPane dividerPositions="0.34782608695652173" prefHeight="160.0" prefWidth="200.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ComboBox layoutX="14.0" layoutY="148.0" prefWidth="150.0" />
+                              <Label layoutX="14.0" layoutY="131.0" text="Tipo biglietto" />
+                              <ComboBox layoutX="14.0" layoutY="32.0" prefWidth="150.0" />
+                              <Label layoutX="14.0" layoutY="14.0" text="Giorno" />
+                              <Button layoutX="50.0" layoutY="302.0" mnemonicParsing="false" text="Inserisci biglietto" />
+                              <ComboBox layoutX="14.0" layoutY="90.0" prefWidth="150.0" />
+                              <Label layoutX="19.0" layoutY="73.0" text="Visitatore" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ListView layoutY="30.0" prefHeight="154.0" prefWidth="387.0" />
+                              <ListView layoutY="216.0" prefHeight="62.0" prefWidth="387.0" />
+                              <Button layoutX="265.0" layoutY="287.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="106.0" text="Conferma ordine" />
+                              <Label layoutX="107.0" layoutY="313.0" text="xx,xx" />
+                              <Label layoutX="28.0" layoutY="313.0" text="Saldo totale: € " />
+                              <Button layoutX="14.0" layoutY="287.0" mnemonicParsing="false" text="Applica promozioni disponibili" />
+                              <Label layoutX="10.0" layoutY="12.0" text="Biglietti selezionati:" />
+                              <Label layoutX="10.0" layoutY="198.0" text="Promozioni applicate:" />
+                              <Button layoutX="288.0" layoutY="2.0" mnemonicParsing="false" text="Elimina biglietti" />
+                              <Button layoutX="268.0" layoutY="188.0" mnemonicParsing="false" text="Elimina promozioni" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="Biglietti">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="17.0" layoutY="16.0" text="Nome" />
+                        <Label layoutX="17.0" layoutY="63.0" text="Cognome" />
+                        <Label layoutX="17.0" layoutY="112.0" text="Codice fiscale" />
+                        <TextField layoutX="17.0" layoutY="80.0" promptText="Inserisci il cognome" />
+                        <TextField layoutX="17.0" layoutY="33.0" promptText="Inserisci il nome" />
+                        <TextField layoutX="17.0" layoutY="129.0" promptText="Inserisci il codice fiscale" />
+                        <Button layoutX="55.0" layoutY="164.0" mnemonicParsing="false" text="Inserisci visitatore" />
+                        <ListView layoutX="14.0" layoutY="220.0" prefHeight="104.0" prefWidth="192.0" />
+                        <Label layoutX="17.0" layoutY="203.0" text="Visitatori" />
+                        <ComboBox layoutX="281.0" layoutY="75.0" prefWidth="150.0" />
+                        <ComboBox layoutX="281.0" layoutY="28.0" prefWidth="150.0" />
+                        <Label layoutX="281.0" layoutY="11.0" text="Giorno" />
+                        <Label layoutX="281.0" layoutY="58.0" text="Tipo biglietto" />
+                        <Button layoutX="308.0" layoutY="351.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="128.0" text="Applica promozioni" />
+                        <Button layoutX="477.0" layoutY="50.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="133.0" text="Inserisci tutti i biglietti" />
+                        <ListView layoutX="281.0" layoutY="130.0" prefHeight="163.0" prefWidth="361.0" />
+                        <Label layoutX="281.0" layoutY="114.0" text="Riepilogo ordine:" />
+                        <Button layoutX="496.0" layoutY="350.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="119.0" text="Conferma ordine" />
+                        <Button layoutX="172.0" layoutY="360.0" mnemonicParsing="false" text="OK" />
+                        <TextField layoutX="17.0" layoutY="360.0" promptText="Inserisci il codice fiscale" />
+                        <Button layoutX="308.0" layoutY="383.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="128.0" text="Elimina promozioni" />
+                        <Button layoutX="486.0" layoutY="299.0" mnemonicParsing="false" text="Cancella biglietto" />
+                        <TextField layoutX="330.0" layoutY="299.0" promptText="Inserisci il codice fiscale" />
+                        <Line endX="129.0" endY="67.0" layoutX="110.0" layoutY="332.0" startX="129.0" startY="-299.0" />
+                        <Label layoutX="16.0" layoutY="341.0" text="Cancella visitatore:" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
