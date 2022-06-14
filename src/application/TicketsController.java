@@ -16,12 +16,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import structures.Visitor;
+import tables.DaysTable;
+import tables.OrdersTable;
+import tables.OrdersVisitorsTicketsTable;
+import tables.TicketsTable;
 import tables.VisitorsTable;
 
 public class TicketsController {
@@ -50,8 +55,24 @@ public class TicketsController {
     @FXML
     private TextField txtCancellaVisitatore;
     
+    @FXML
+    private ComboBox<Date> cmbGiorno;
+    @FXML
+    private ComboBox<String> cmbBiglietto;
+    
     final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
     final static VisitorsTable visitorsTable = new VisitorsTable(connectionProvider.getMySQLConnection());
+    final static OrdersTable ordersTable = new OrdersTable(connectionProvider.getMySQLConnection());
+    final static OrdersVisitorsTicketsTable ovtTable = new OrdersVisitorsTicketsTable(connectionProvider.getMySQLConnection());
+    final static DaysTable daysTable = new DaysTable(connectionProvider.getMySQLConnection());
+    final static TicketsTable ticketsTable = new TicketsTable(connectionProvider.getMySQLConnection());
+    
+    public void changetagTickets() throws IOException {
+    	cmbGiorno.getItems().clear();
+    	cmbGiorno.getItems().addAll(daysTable.getAllDays());
+    	cmbBiglietto.getItems().clear();
+    	cmbBiglietto.getItems().addAll(ticketsTable.getAllTicketsNames());
+    }
     
     public void btnAddVisitor(ActionEvent event) throws IOException {
     	String gender = "Non specificato";
@@ -83,6 +104,9 @@ public class TicketsController {
     
     public void btnInsertTickets(ActionEvent event) throws IOException {
     	System.out.println("insert tickets");
+    	visitors.forEach(v -> {
+    		
+    	});
     }
     
     public void btnClearTicket(ActionEvent event) throws IOException {
