@@ -33,5 +33,12 @@ public class Controller {
         stage.setScene(new Scene(root));
         stage.show();
     }
+    
+    public void switchToTickets(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/TicketsPane.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
 }

@@ -6,14 +6,14 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane fx:id="EmployeeMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="EmployeeMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
       <Button fx:id="btnTurns" layoutX="225.0" layoutY="136.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Turni" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnTickets" layoutX="225.0" layoutY="214.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Biglietteria" textAlignment="CENTER">
+      <Button fx:id="btnTickets" layoutX="225.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchToTickets" prefHeight="50.0" prefWidth="150.0" text="Biglietteria" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

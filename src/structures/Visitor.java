@@ -37,5 +37,10 @@ public class Visitor {
     public String getGender() {
         return this.gender;
     }
+    
+    @Override
+    public String toString() {
+        return this.fiscalCode + " " + this.name + " " + this.surname + " " + this.birthDate + " " + this.gender;
+    }
 
 }
