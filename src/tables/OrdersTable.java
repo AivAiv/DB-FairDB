@@ -2,6 +2,7 @@ package tables;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
@@ -30,6 +31,24 @@ public class OrdersTable {
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
+    }
+    
+    public boolean checkId(int id) {
+    	String query = "SELECT idOrdine FROM " + TABLE_NAME + " WHERE idOrdine = 1;";
+    	boolean res = false;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setInt(1, id);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  int foundId = resultSet.getInt("idOrdine");
+            	  if (foundId != 0) {
+            		  res = true;
+            	  }
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    	return res;
     }
     
 }

@@ -4,18 +4,20 @@ import java.util.Date;
 
 public class Order {
 
-    private int orderCode;
+	private int idOrder;
     private Date day;
     private double total;
+    private Promotion promo;
     
-    public Order(int orderCode, Date day, double total) {
-        this.orderCode = orderCode;
-        this.day = day;
+    public Order(int idOrder, Date day, double total, Promotion promo) {
+        this.idOrder = idOrder;
+    	this.day = day;
         this.total = total;
+        this.promo = promo;
     }
     
-    public int getOrderCode() {
-        return this.orderCode;
+    public int getIdOrder() {
+    	return this.idOrder;
     }
     
     public Date getDay() {
@@ -24,6 +26,10 @@ public class Order {
     
     public double getTotal() {
         return this.total;
+    }
+    
+    public Promotion getPromotion() {
+    	return this.promo;
     }
     
 }

@@ -21,14 +21,15 @@ public class PromotionsTable {
     }
     
     public List<Triplet<String,Integer,String>> getAllPromotionsNames() {
-    	String query = "SELECT idPromozione, sconto FROM " + TABLE_NAME + ";";
+    	String query = "SELECT * FROM " + TABLE_NAME + ";";
     	List<Triplet<String,Integer,String>> res = new LinkedList<>();
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
             	  String promoName = resultSet.getString("idPromozione");
             	  int sconto = resultSet.getInt("sconto");
-            	  res.add(new Triplet<>(promoName,sconto,null));
+            	  String desc = resultSet.getString("descrizione");
+            	  res.add(new Triplet<>(promoName,sconto,desc));
             }
         } catch (final SQLException e) { 
             throw new IllegalStateException(e);

@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.Locale;
+import static java.util.Calendar.*;
 
 import Utilities.ConnectionProvider;
 import Utilities.Triplet;
@@ -20,6 +23,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import structures.Order;
+import structures.Promotion;
 import structures.Visitor;
 import tables.DaysTable;
 import tables.OrdersTable;
@@ -39,7 +44,10 @@ public class TicketsController {
     private List<Triplet<Visitor, Date, String>> orderRecords = new LinkedList<>();
     private Map<Visitor,String> visitorsTickets = new HashMap<>();
     private Map<Visitor,Date> visitorsDays = new HashMap<>();
-    private int childrenNum = 0;
+    private int childrenNum;
+    private Promotion promo;
+    private double sum = 0;
+    int randnum = 0;
     
     @FXML
     private TextField txtCodiceFiscale;
@@ -133,7 +141,6 @@ public class TicketsController {
     }
     
     public void btnAddPromo(ActionEvent event) throws IOException {
-    	System.out.println("add promo");
     	List<String> templst = orderRecords.stream().map(v -> v.getFirst().toString().concat(" --- " + v.getSecond() + " " + v.getThird())).collect(Collectors.toList());
     	templst.add("---------------------------");
     	List<Triplet<String,Integer,String>> promos = promotionsTable.getAllPromotionsNames();
@@ -142,6 +149,7 @@ public class TicketsController {
     		promos.forEach(p -> {
     			if (p.getFirst().equals("gruppo 5-10")) {
     				templst.add("Promozione applicata: " + promos.get(promos.indexOf(p)).getFirst());
+    				promo = new Promotion(p.getFirst(), p.getSecond(), p.getThird());
     			}
     		});
     	}
@@ -150,6 +158,7 @@ public class TicketsController {
     		promos.forEach(p -> {
     			if (p.getFirst().equals("gruppo 11-30")) {
     				templst.add("Promozione applicata: " + promos.get(promos.indexOf(p)).getFirst());
+    				promo = new Promotion(p.getFirst(), p.getSecond(), p.getThird());
     			}
     		});
     	}
@@ -158,12 +167,13 @@ public class TicketsController {
     		promos.forEach(p -> {
     			if (p.getFirst().equals("gruppo più 30")) {
     				templst.add("Promozione applicata: " + promos.get(promos.indexOf(p)).getFirst());
+    				promo = new Promotion(p.getFirst(), p.getSecond(), p.getThird());
     			}
     		});
     	}
     	
     	orderRecords.forEach( or -> {
-    		if (this.getTodaysDate().getTime() - or.getSecond().getTime() < 14) {
+    		if (this.getDiffYears(or.getFirst().getBirthDate(), this.getTodaysDate()) < 14) {
     			childrenNum ++;
     		}
     	});
@@ -172,24 +182,69 @@ public class TicketsController {
     		promos.forEach(p -> {
     			if (p.getFirst().equals("famiglia")) {
     				templst.add("Promozione applicata: " + promos.get(promos.indexOf(p)).getFirst());
+    				promo = new Promotion(p.getFirst(), p.getSecond(), p.getThird());
     			}
     		});
     	}
+    	
     	lstOrdine.setItems(FXCollections.observableArrayList(templst));
+    	childrenNum = 0;
     }
     
     public void btnClearPromo(ActionEvent event) throws IOException {
-    	System.out.println("clear promo");
+    	lstOrdine.setItems(FXCollections.observableArrayList(orderRecords.stream().map(v -> v.getFirst().toString().concat(" --- " + v.getSecond() + " " + v.getThird())).collect(Collectors.toList())));
+    	promo = null;
     }
     
     public void btnConfirmOrder(ActionEvent event) throws IOException {
     	System.out.println("confirm order");
+    	Random rand = new Random();
+    	boolean assigned = false;
+    	while(assigned = false) {
+    		randnum = rand.nextInt();
+    		if (ordersTable.checkId(randnum) == false) {
+    			ordersTable.addOrder(randnum, this.getTodaysDate(), this.getTotal(), promo);
+    			assigned = true;
+    		}
+    	}
+    	
+    	orderRecords.forEach( or -> {
+    		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), getTodaysDate());
+    	});
     }
 
     private Date getTodaysDate() {
          Calendar cal = Calendar.getInstance();
          Date date = cal.getTime();
          return date;
+    }
+    
+    private int getDiffYears(Date first, Date last) {
+        Calendar a = getCalendar(first);
+        Calendar b = getCalendar(last);
+        System.out.println("gdy: b - " + b.get(YEAR));
+        System.out.println("gdy: a - " + a.get(YEAR));
+        int diff = b.get(YEAR) - a.get(YEAR);
+        if (a.get(MONTH) > b.get(MONTH) || 
+            (a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    private double getTotal() {
+        orderRecords.forEach(or -> {
+        	sum += ticketsTable.getTicketPrice(or.getThird());
+        });
+        return sum;
+   }
+    
+    private Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance();
+        System.out.println("before: " + cal);
+        cal.setTime(date);
+        System.out.println("after: " + cal);
+        return cal;
     }
     
 }

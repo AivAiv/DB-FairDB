@@ -10,7 +10,7 @@ import Utilities.Utils;
 
 public class OrdersVisitorsTicketsTable {
 
-	public static final String TABLE_NAME = "ordini";
+	public static final String TABLE_NAME = "visitatori-ordini-biglietti";
 
     private final Connection connection; 
 
