@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
-import application.Utils;
+import Utilities.Utils;
 
 public class VisitorsTable {
 	
