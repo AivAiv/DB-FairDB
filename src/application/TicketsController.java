@@ -17,6 +17,10 @@ import Utilities.Triplet;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -82,6 +86,13 @@ public class TicketsController {
     final static DaysTable daysTable = new DaysTable(connectionProvider.getMySQLConnection());
     final static TicketsTable ticketsTable = new TicketsTable(connectionProvider.getMySQLConnection());
     final static PromotionsTable promotionsTable = new PromotionsTable(connectionProvider.getMySQLConnection());
+    
+    public void goBack(ActionEvent event) throws IOException {
+	    Parent root = FXMLLoader.load(getClass().getResource("/EmployeesMenuPane.fxml"));
+	    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    stage.setScene(new Scene(root));
+	    stage.show();
+	}
     
     public void changetagTickets() throws IOException {
     	cmbGiorno.getItems().clear();

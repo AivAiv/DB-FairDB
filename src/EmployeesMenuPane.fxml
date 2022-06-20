@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="EmployeeMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RolesController">
-   <children>
-      <Button fx:id="btnTurns" layoutX="225.0" layoutY="136.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Turni" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btnTickets" layoutX="225.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchToTickets" prefHeight="50.0" prefWidth="150.0" text="Biglietteria" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <Label fx:id="lblEmployee" layoutX="14.0" layoutY="14.0" prefHeight="20.0" prefWidth="72.0" text="Personale">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Label>
-   </children>
-</Pane>
+
+<BorderPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RolesController">
+   <center>
+      <Pane fx:id="EmployeeMenuPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnTurns1" layoutX="225.0" layoutY="136.0" mnemonicParsing="false" onAction="#switchToTurns" prefHeight="50.0" prefWidth="150.0" text="Turni" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnTickets1" layoutX="225.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchToTickets" prefHeight="50.0" prefWidth="150.0" text="Biglietteria" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <BorderPane prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <left>
+            <Label fx:id="lblEmployee1" prefHeight="20.0" prefWidth="72.0" text="Personale" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="14.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+            </Label>
+         </left>
+         <center>
+            <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <Button fx:id="btnIndietro" mnemonicParsing="false" onAction="#goBack" text="Indietro" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </BorderPane.margin>
+            </Button>
+         </right>
+      </BorderPane>
+   </top>
+</BorderPane>
