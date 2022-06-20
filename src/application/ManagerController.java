@@ -115,8 +115,8 @@ public class ManagerController implements Initializable {
 	}
 	
 	public void btnAddStand(ActionEvent event) throws IOException {
-		int totalSpaces;
-		int occupiedSpaces;
+	    int totalSpaces;
+	    int occupiedSpaces;
 		try {
 			totalSpaces = Integer.parseInt(txtSpaziTot.getText());
 			occupiedSpaces = Integer.parseInt(txtSpaziOcc.getText());
@@ -126,8 +126,36 @@ public class ManagerController implements Initializable {
 		} catch (IllegalArgumentException arg) {
 			System.out.println("Devi inserire per forza un numero!!");
 		}catch (Exception e) {
-			System.out.println("Non è possibile occupare più spazi di quelli totali!");
+			System.out.println("Non ï¿½ possibile occupare piï¿½ spazi di quelli totali!");
 		}
 	}
+	
+	public void btnDeleteStand(ActionEvent event) throws IOException {
+	    System.out.println("DeleteStand");
+        }
+	
+	public void btnAddCompany(ActionEvent event) throws IOException {
+	    System.out.println("AddCompany");
+        }
+	
+	public void btnDeleteCompany(ActionEvent event) throws IOException {
+	    System.out.println("btnDeleteCompany");
+        }
+	
+	public void btnAddProduct(ActionEvent event) throws IOException {
+	    System.out.println("btnAddProduct");
+        }
+	
+	public void btnDeleteProduct(ActionEvent event) throws IOException {
+	    System.out.println("btnDeleteProduct");
+        }
+	
+	public void btnAddTurn(ActionEvent event) throws IOException {
+	    System.out.println("btnAddTurn");
+        }
+        
+        public void btnDeleteTurn(ActionEvent event) throws IOException {
+            System.out.println("btnDeleteTurn");
+        }
 	
 }

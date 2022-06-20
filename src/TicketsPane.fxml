@@ -44,7 +44,7 @@
                         <Button fx:id="btnInserisciBiglietti" layoutX="477.0" layoutY="50.0" mnemonicParsing="false" onAction="#btnInsertTickets" prefHeight="35.0" prefWidth="133.0" text="Inserisci tutti i biglietti" />
                         <ListView fx:id="lstOrdine" layoutX="281.0" layoutY="130.0" prefHeight="163.0" prefWidth="361.0" />
                         <Label layoutX="281.0" layoutY="114.0" text="Riepilogo ordine:" />
-                        <Button fx:id="btnConfermaOrdine" layoutX="496.0" layoutY="350.0" mnemonicParsing="false" onAction="#btnConfirmOrder" prefHeight="70.0" prefWidth="119.0" text="Conferma ordine" />
+                        <Button fx:id="btnConfermaOrdine" layoutX="496.0" layoutY="360.0" mnemonicParsing="false" onAction="#btnConfirmOrder" prefHeight="70.0" prefWidth="119.0" text="Conferma ordine" />
                         <Button fx:id="btnClearVisitor" layoutX="172.0" layoutY="439.0" mnemonicParsing="false" onAction="#btnClearVisitor" text="OK" />
                         <TextField fx:id="txtCancellaVisitatore" layoutX="17.0" layoutY="439.0" promptText="Inserisci il codice fiscale" />
                         <Button fx:id="btnEliminaPromo" layoutX="308.0" layoutY="383.0" mnemonicParsing="false" onAction="#btnClearPromo" prefHeight="21.0" prefWidth="128.0" text="Elimina promozioni" />
@@ -57,6 +57,8 @@
                         <RadioButton fx:id="rdbMaschio" layoutX="85.0" layoutY="216.0" mnemonicParsing="false" text="M" />
                         <RadioButton fx:id="rdbFemmina" layoutX="136.0" layoutY="216.0" mnemonicParsing="false" text="F" />
                         <Label layoutX="19.0" layoutY="216.0" text="Sesso" />
+                        <Label layoutX="329.0" layoutY="420.0" text="Totale: €" />
+                        <Label fx:id="lblTotale" layoutX="384.0" layoutY="420.0" text="00,00" />
                      </children>
                   </AnchorPane>
               </content>
@@ -68,11 +70,16 @@
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="14.0" layoutY="134.0" text="Codice fiscale" />
-                              <TextField layoutX="14.0" layoutY="151.0" promptText="Inserisci il codice fiscale" />
-                              <Button layoutX="74.0" layoutY="183.0" mnemonicParsing="false" text="Cerca biglietti" />
+                              <TextField fx:id="txtTrovaBiglietto" layoutX="14.0" layoutY="151.0" promptText="Inserisci il codice fiscale" />
+                              <Button fx:id="btnTrovaBiglietto" layoutX="74.0" layoutY="183.0" mnemonicParsing="false" onAction="#btnFindTicket" text="Cerca biglietti" />
                               <Label layoutX="14.0" layoutY="233.0" text="Codice ordine" />
-                              <TextField layoutX="14.0" layoutY="250.0" promptText="Inserisci il codice ordine" />
-                              <Button layoutX="77.0" layoutY="282.0" mnemonicParsing="false" text="Cerca ordine" />
+                              <TextField fx:id="txtTrovaOrdine" layoutX="14.0" layoutY="250.0" promptText="Inserisci il codice ordine" />
+                              <Button fx:id="btnTrovaOrdine" layoutX="77.0" layoutY="282.0" mnemonicParsing="false" onAction="#btnFindOrder" text="Cerca ordine" />
+                              <Label layoutX="50.0" layoutY="45.0" text="Ricerca biglietti:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="341.0" prefWidth="344.0">

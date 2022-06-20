@@ -176,7 +176,7 @@ public class TicketsController {
     	
     	if(orderRecords.size() > 30) {
     		promos.forEach(p -> {
-    			if (p.getFirst().equals("gruppo più 30")) {
+    			if (p.getFirst().equals("gruppo piï¿½ 30")) {
     				templst.add("Promozione applicata: " + promos.get(promos.indexOf(p)).getFirst());
     				promo = new Promotion(p.getFirst(), p.getSecond(), p.getThird());
     			}
@@ -222,6 +222,12 @@ public class TicketsController {
     	orderRecords.forEach( or -> {
     		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), getTodaysDate());
     	});
+    }
+    
+    public void btnFindTicket(ActionEvent event) throws IOException {
+    }
+    
+    public void btnFindOrder(ActionEvent event) throws IOException {
     }
 
     private Date getTodaysDate() {
