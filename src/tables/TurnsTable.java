@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import Utilities.Utils;
+import structures.Turn;
 
 public class TurnsTable {
     
@@ -19,22 +22,25 @@ public static final String TABLE_NAME = "turni";
     public TurnsTable(final Connection connection) {
         this.connection = Objects.requireNonNull(connection);
     }
-    
-    //TODO
-    /*public List<Turn> getAllTurns() {
-        String query = "SELECT codiceAzienda FROM " + TABLE_NAME + ";";
-        List<Integer> res = new LinkedList<>();
+
+    public List<Turn> getAllTurns() {
+        String query = "SELECT * FROM " + TABLE_NAME + ";";
+        List<Turn> res = new LinkedList<>();
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                  int companyCode = resultSet.getInt("codiceAzienda");
-                  res.add(companyCode);
+            	int codTurn = resultSet.getInt("idTurno");
+                Date day = resultSet.getDate("giorno");
+                Time time = resultSet.getTime("orario");
+                String cf = resultSet.getString("codiceFiscale");
+                int pad = resultSet.getInt("padiglione");
+            	res.add(new Turn(codTurn, day, time, cf, pad));
             }
         } catch (final SQLException e) { 
             throw new IllegalStateException(e);
         }
         return res;
-    }*/
+    }
     
     public void addTurn(int codTurn, Date day, Time time, String cf, int codPad) {
         String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`idTurno`, `giorno`, `orario`, `codiceFiscale`, `padiglione`) VALUES (?, ?, ?, ?, ?);";

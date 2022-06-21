@@ -5,13 +5,13 @@ import java.util.Date;
 
 public class Stand {
 	
-	private int standCod;
-    private String specialization;
-    private Time open;
-    private Time close;
-    private Date children;
-    private int expTot;
-    private int expOcc;
+	private final int standCod;
+    private final String specialization;
+    private final Time open;
+    private final Time close;
+    private final Date children;
+    private final int expTot;
+    private final int expOcc;
     
     public Stand(int standCod, String specialization, Time open, Time close, Date children, int expTot, int expOcc) {
         this.standCod = standCod;
@@ -31,7 +31,7 @@ public class Stand {
         return this.specialization;
     }
     
-    public Time open() {
+    public Time getOpen() {
         return this.open;
     }
     
@@ -39,15 +39,15 @@ public class Stand {
     	return this.close;
     }
     
-    public Date children() {
+    public Date getChildren() {
         return this.children;
     }
     
-    public int expTot() {
+    public int getExpTot() {
     	return this.expTot;
     }
     
-    public int expOcc() {
+    public int getExpOcc() {
         return this.expOcc;
     }
     

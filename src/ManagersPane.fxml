@@ -96,13 +96,12 @@
                               <Label fx:id="lblPadiglioneAz" layoutX="301.0" layoutY="155.0" text="0" />
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="tblPadiglioni1" prefHeight="436.0" prefWidth="487.0">
+                        <TableView fx:id="tblAziende" prefHeight="436.0" prefWidth="487.0">
                            <columns>
-                              <TableColumn fx:id="colCodice1" prefWidth="43.0" text="codice" />
-                              <TableColumn fx:id="colSpecializzazione1" prefWidth="118.0" text="Denominazione" />
-                              <TableColumn fx:id="colOrarioApertura1" minWidth="0.0" prefWidth="108.0" text="Specializzazione" />
-                              <TableColumn fx:id="colOrarioChiusura1" minWidth="0.0" prefWidth="130.0" text="Rappresentante" />
-                              <TableColumn fx:id="colBambini1" minWidth="0.0" prefWidth="122.0" text="Numero Padiglione" />
+                              <TableColumn fx:id="colCodiceAz" prefWidth="43.0" text="codice" />
+                              <TableColumn fx:id="colDenominazione" prefWidth="118.0" text="Denominazione" />
+                              <TableColumn fx:id="colSpecAz" minWidth="0.0" prefWidth="108.0" text="Specializzazione" />
+                              <TableColumn fx:id="colNumPadiglione" minWidth="0.0" prefWidth="122.0" text="Numero Padiglione" />
                            </columns>
                         </TableView>
                      </items>
@@ -138,13 +137,13 @@
                               <ComboBox fx:id="cmbAzienda" layoutX="21.0" layoutY="277.0" prefWidth="150.0" />
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="tblPadiglioni11" prefHeight="436.0" prefWidth="487.0">
+                        <TableView fx:id="tblProdotti" prefHeight="436.0" prefWidth="487.0">
                            <columns>
-                              <TableColumn fx:id="colCodice11" prefWidth="43.0" text="codice" />
-                              <TableColumn fx:id="colSpecializzazione11" prefWidth="84.0" text="Nome" />
-                              <TableColumn fx:id="colOrarioApertura11" minWidth="0.0" prefWidth="53.0" text="Prezzo" />
-                              <TableColumn fx:id="colOrarioChiusura11" minWidth="0.0" prefWidth="309.0" text="Descrizione" />
-                              <TableColumn fx:id="colBambini11" minWidth="0.0" prefWidth="119.0" text="Codice Azienda" />
+                              <TableColumn fx:id="colCodiceProd" prefWidth="43.0" text="codice" />
+                              <TableColumn fx:id="colNome" prefWidth="84.0" text="Nome" />
+                              <TableColumn fx:id="colPrezzo" minWidth="0.0" prefWidth="53.0" text="Prezzo" />
+                              <TableColumn fx:id="colDesc" minWidth="0.0" prefWidth="309.0" text="Descrizione" />
+                              <TableColumn fx:id="colCodAzienda" minWidth="0.0" prefWidth="119.0" text="Codice Azienda" />
                            </columns>
                         </TableView>
                      </items>
@@ -180,13 +179,13 @@
                               <ComboBox fx:id="cmbCodiceFiscalePers" layoutX="15.0" layoutY="214.0" prefWidth="150.0" />
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="tblPadiglioni2" prefHeight="436.0" prefWidth="487.0">
+                        <TableView fx:id="tblTurni" prefHeight="436.0" prefWidth="487.0">
                            <columns>
-                              <TableColumn fx:id="colCodice2" prefWidth="43.0" text="Codice" />
-                              <TableColumn fx:id="colSpecializzazione2" prefWidth="104.0" text="Giorno" />
-                              <TableColumn fx:id="colOrarioApertura2" minWidth="0.0" prefWidth="102.0" text="Orario" />
-                              <TableColumn fx:id="colOrarioChiusura2" minWidth="0.0" prefWidth="97.0" text="Codice Fiscale" />
-                              <TableColumn fx:id="colBambini2" minWidth="0.0" prefWidth="127.0" text="Codice Padiglione" />
+                              <TableColumn fx:id="colCodiceTurno" prefWidth="43.0" text="Codice" />
+                              <TableColumn fx:id="colGiorno" prefWidth="104.0" text="Giorno" />
+                              <TableColumn fx:id="colOrario" minWidth="0.0" prefWidth="102.0" text="Orario" />
+                              <TableColumn fx:id="colCodiceFiscale" minWidth="0.0" prefWidth="97.0" text="Codice Fiscale" />
+                              <TableColumn fx:id="colCodPad" minWidth="0.0" prefWidth="127.0" text="Codice Padiglione" />
                            </columns>
                         </TableView>
                      </items>

@@ -7,4 +7,6 @@ module FairManager {
 	requires java.sql;
 	
 	opens application to javafx.graphics, javafx.fxml;
+	
+	exports structures;
 }

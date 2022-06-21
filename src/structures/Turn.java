@@ -18,7 +18,7 @@ public class Turn {
         this.codStand = codStand;
     }
     
-    public int getCodTurn() {
+    public int getCod() {
         return this.cod;
     }
     
@@ -30,7 +30,7 @@ public class Turn {
         return this.time;
     }
     
-    public String getFiscalCode() {
+    public String getCf() {
         return this.cf;
     }
     
