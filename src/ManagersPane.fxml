@@ -75,7 +75,7 @@
                      <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="574.0" prefWidth="251.0">
                            <children>
-                              <Button fx:id="btnAggiungiAzienda" layoutX="125.0" layoutY="262.0" mnemonicParsing="false" onAction="#btnAddCompany" text="Aggiungi azienda" />
+                              <Button fx:id="btnAggiungiAzienda" layoutX="128.0" layoutY="210.0" mnemonicParsing="false" onAction="#btnAddCompany" text="Aggiungi azienda" />
                               <TextField fx:id="txtDenominazione" layoutX="14.0" layoutY="99.0" prefHeight="25.0" prefWidth="163.0" promptText="Inserisci la denominazione" />
                               <Label layoutX="13.0" layoutY="82.0" text="Denominazione" />
                               <Label layoutX="185.0" layoutY="155.0" text="Numero padiglione:" />
@@ -93,9 +93,7 @@
                               </Label>
                               <Label layoutX="19.0" layoutY="134.0" text="Specializzazione" />
                               <ComboBox fx:id="cmbSpecializzazione" layoutX="15.0" layoutY="151.0" prefWidth="150.0" />
-                              <TextField fx:id="txtRappresentante" layoutX="16.0" layoutY="200.0" prefHeight="25.0" prefWidth="163.0" promptText="Inserisci il codice fiscale" />
-                              <Label layoutX="21.0" layoutY="183.0" text="Rappresentante" />
-                              <Label layoutX="301.0" layoutY="155.0" text="0" />
+                              <Label fx:id="lblPadiglioneAz" layoutX="301.0" layoutY="155.0" text="0" />
                            </children>
                         </AnchorPane>
                         <TableView fx:id="tblPadiglioni1" prefHeight="436.0" prefWidth="487.0">
@@ -165,8 +163,7 @@
                               <Spinner fx:id="spnOrario" layoutX="14.0" layoutY="158.0" />
                               <Label layoutX="14.0" layoutY="197.0" text="Codice fiscale personale" />
                               <Label layoutX="15.0" layoutY="252.0" text="Padiglione" />
-                              <TextField fx:id="txtCodiceFiscalePers" layoutX="14.0" layoutY="214.0" prefHeight="25.0" prefWidth="160.0" promptText="Inserisci il codice fiscale" />
-                              <ComboBox fx:id="cmbPadglione" layoutX="15.0" layoutY="269.0" prefWidth="150.0" />
+                              <ComboBox fx:id="cmbPadiglione" layoutX="15.0" layoutY="269.0" prefWidth="150.0" />
                               <Label layoutX="121.0" layoutY="432.0" text="Cancella turno:">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
@@ -180,6 +177,7 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="cmbGiorno" layoutX="15.0" layoutY="99.0" prefWidth="150.0" />
+                              <ComboBox fx:id="cmbCodiceFiscalePers" layoutX="15.0" layoutY="214.0" prefWidth="150.0" />
                            </children>
                         </AnchorPane>
                         <TableView fx:id="tblPadiglioni2" prefHeight="436.0" prefWidth="487.0">

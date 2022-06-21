@@ -21,12 +21,12 @@ public class TicketsTable {
     }
     
     public List<String> getAllTicketsNames() {
-    	String query = "SELECT idBiglietto FROM " + TABLE_NAME + ";";
+    	String query = "SELECT codiceBiglietto FROM " + TABLE_NAME + ";";
     	List<String> res = new LinkedList<>();
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-            	  String ticketName = resultSet.getString("idBiglietto");
+            	  String ticketName = resultSet.getString("codiceBiglietto");
             	  res.add(ticketName);
             }
         } catch (final SQLException e) { 
@@ -53,7 +53,7 @@ public class TicketsTable {
     }
     
     public double getTicketPrice(String name) {
-    	String query = "SELECT prezzo FROM " + TABLE_NAME + " WHERE idBiglietto = ?;";
+    	String query = "SELECT prezzo FROM " + TABLE_NAME + " WHERE codiceBiglietto = ?;";
     	double res = 0;
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
     		statement.setString(1, name);

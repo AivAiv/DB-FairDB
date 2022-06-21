@@ -2,13 +2,8 @@ package tables;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-
-import structures.Product;
 
 public class ProductsTable {
     public static final String TABLE_NAME = "prodotti";
@@ -20,7 +15,7 @@ public class ProductsTable {
     }
     
     //TODO
-    public List<Product> getAllProducts() {
+    /*public List<Product> getAllProducts() {
         String query = "SELECT codiceAzienda FROM " + TABLE_NAME + ";";
         List<Integer> res = new LinkedList<>();
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -33,17 +28,26 @@ public class ProductsTable {
             throw new IllegalStateException(e);
         }
         return res;
+    }*/
+    
+    public void addProduct(int codProd, String name, double price, String description, int codComp) {
+        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codiceProdotto`, `nome`, `prezzo`, `descrizione`, `codiceAzienda`) VALUES (?, ?, ?, ?, ?);";
+        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, codProd);
+            statement.setString(2, name);
+            statement.setDouble(3, price);
+            statement.setString(4, description);
+            statement.setInt(5, codComp);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
     }
     
-    //TODO
-    public void addProduct(int codCompany, String name, String specialization, String agent, int codStand) {
-        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codAzienda`, `denominazione`, `specializzazione`, `rappresentante`, `codicePadiglione`) VALUES (?, ?, ?, ?);";
-        try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setInt(1, codCompany);
-            statement.setString(2, name);
-            statement.setString(3, specialization);
-            statement.setString(4, agent);
-            statement.setInt(5, codStand);
+    public void deleteProduct(int code) {
+    	String query = "DELETE FROM `fairdb`.`" + TABLE_NAME + "` WHERE (`codiceProdotto` = ?);";
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, code);
             statement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalStateException(e);

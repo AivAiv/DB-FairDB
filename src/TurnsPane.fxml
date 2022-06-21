@@ -18,8 +18,8 @@
          <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button layoutX="204.0" layoutY="134.0" mnemonicParsing="false" text="Trova" />
-                  <TextField layoutX="46.0" layoutY="134.0" promptText="Inserisci il codice fiscale" />
+                  <Button fx:id="btntrova" layoutX="204.0" layoutY="134.0" mnemonicParsing="false" onAction="#btnFindTurn" text="Trova" />
+                  <TextField fx:id="txtCodiceFiscPers" layoutX="46.0" layoutY="134.0" promptText="Inserisci il codice fiscale" />
                   <Label layoutX="47.0" layoutY="117.0" text="Codice fiscale" />
                   <Label layoutX="106.0" layoutY="14.0" prefHeight="31.0" prefWidth="85.0" text="Trova turni">
                      <font>

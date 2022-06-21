@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.Locale;
 import static java.util.Calendar.*;
 
 import Utilities.ConnectionProvider;
@@ -27,7 +26,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import structures.Order;
 import structures.Promotion;
 import structures.Visitor;
 import tables.DaysTable;
@@ -78,6 +76,11 @@ public class TicketsController {
     private ListView<String> lstOrdine;
     @FXML
     private TextField txtCancellaBiglietto;
+    
+    @FXML
+    private TextField txtTrovaBiglietto;
+    @FXML
+    private TextField txtTrovaOrdine;
     
     final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
     final static VisitorsTable visitorsTable = new VisitorsTable(connectionProvider.getMySQLConnection());
@@ -208,11 +211,10 @@ public class TicketsController {
     }
     
     public void btnConfirmOrder(ActionEvent event) throws IOException {
-    	System.out.println("confirm order");
     	Random rand = new Random();
     	boolean assigned = false;
-    	while(assigned = false) {
-    		randnum = rand.nextInt();
+    	while(assigned == false) {
+    		randnum = rand.nextInt(200)+1;
     		if (ordersTable.checkId(randnum) == false) {
     			ordersTable.addOrder(randnum, this.getTodaysDate(), this.getTotal(), promo);
     			assigned = true;
@@ -220,14 +222,21 @@ public class TicketsController {
     	}
     	
     	orderRecords.forEach( or -> {
-    		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), getTodaysDate());
+    		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), or.getSecond());
     	});
     }
     
     public void btnFindTicket(ActionEvent event) throws IOException {
+    	ovtTable.findTicket(txtTrovaBiglietto.getText());
     }
     
     public void btnFindOrder(ActionEvent event) throws IOException {
+	    try {
+			int order = Integer.parseInt(txtTrovaOrdine.getText());
+			ordersTable.findOrder(order);
+		} catch (IllegalArgumentException arg) {
+			System.out.println("Devi inserire per forza un numero!!");
+		}
     }
 
     private Date getTodaysDate() {

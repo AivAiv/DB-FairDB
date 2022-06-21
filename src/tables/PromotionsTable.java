@@ -26,7 +26,7 @@ public class PromotionsTable {
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-            	  String promoName = resultSet.getString("idPromozione");
+            	  String promoName = resultSet.getString("codicePromozione");
             	  int sconto = resultSet.getInt("sconto");
             	  String desc = resultSet.getString("descrizione");
             	  res.add(new Triplet<>(promoName,sconto,desc));

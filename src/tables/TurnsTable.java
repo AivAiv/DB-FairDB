@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.sql.Time;
+import java.util.Date;
 import java.util.Objects;
 
-import structures.Company;
-import structures.Turn;
+import Utilities.Utils;
 
 public class TurnsTable {
     
@@ -22,7 +21,7 @@ public static final String TABLE_NAME = "turni";
     }
     
     //TODO
-    public List<Turn> getAllTurns() {
+    /*public List<Turn> getAllTurns() {
         String query = "SELECT codiceAzienda FROM " + TABLE_NAME + ";";
         List<Integer> res = new LinkedList<>();
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -35,20 +34,50 @@ public static final String TABLE_NAME = "turni";
             throw new IllegalStateException(e);
         }
         return res;
-    }
+    }*/
     
-    //TODO
-    public void addTurn(int codCompany, String name, String specialization, String agent, int codStand) {
-        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codAzienda`, `denominazione`, `specializzazione`, `rappresentante`, `codicePadiglione`) VALUES (?, ?, ?, ?);";
+    public void addTurn(int codTurn, Date day, Time time, String cf, int codPad) {
+        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`idTurno`, `giorno`, `orario`, `codiceFiscale`, `padiglione`) VALUES (?, ?, ?, ?, ?);";
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setInt(1, codCompany);
-            statement.setString(2, name);
-            statement.setString(3, specialization);
-            statement.setString(4, agent);
-            statement.setInt(5, codStand);
+            statement.setInt(1, codTurn);
+            statement.setDate(2, Utils.dateToSqlDate(day));
+            statement.setTime(3, time);
+            statement.setString(4, cf);
+            statement.setInt(5, codPad);
             statement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
     }
+    
+    public void deleteTurn(int code) {
+    	String query = "DELETE FROM `fairdb`.`" + TABLE_NAME + "` WHERE (`idTurno` = ?);";
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, code);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public void findTurn(String cf) {
+    	String query = "SELECT * FROM fairdb." + TABLE_NAME + " WHERE codiceFiscale = ?;";
+    	//res;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setString(1, cf);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  int codTurn = resultSet.getInt("idTurno");
+            	  Date day = resultSet.getDate("giorno");
+            	  Time time = resultSet.getTime("orario");
+            	  String codf = resultSet.getString("codiceFiscale");
+            	  int pad = resultSet.getInt("padiglione");
+            	  //res = ;
+            	  System.out.println(codTurn + " " + day + " " + time + " " + codf + " " + pad);
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    }
+    
 }

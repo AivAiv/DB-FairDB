@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import structures.Company;
-
 public class CompaniesTable {
     
     public static final String TABLE_NAME = "aziende";
@@ -20,8 +18,7 @@ public class CompaniesTable {
         this.connection = Objects.requireNonNull(connection);
     }
     
-    //TODO
-    public List<Company> getAllCompanies() {
+    public List<Integer> getAllCompaniesCodes() {
         String query = "SELECT codiceAzienda FROM " + TABLE_NAME + ";";
         List<Integer> res = new LinkedList<>();
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -36,18 +33,45 @@ public class CompaniesTable {
         return res;
     }
     
-    //TODO: test
-    public void addCompany(int codCompany, String name, String specialization, String agent, int codStand) {
-        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codAzienda`, `denominazione`, `specializzazione`, `rappresentante`, `codicePadiglione`) VALUES (?, ?, ?, ?);";
+    public void addCompany(int codCompany, String name, String specialization, int codStand) {
+        String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codiceAzienda`, `denominazione`, `specializzazione`, `codicePadiglione`) VALUES (?, ?, ?, ?);";
         try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             statement.setInt(1, codCompany);
             statement.setString(2, name);
             statement.setString(3, specialization);
-            statement.setString(4, agent);
-            statement.setInt(5, codStand);
+            statement.setInt(4, codStand);
             statement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
     }
+    
+    public boolean checkId(int id) {
+    	String query = "SELECT codiceAzienda FROM " + TABLE_NAME + " WHERE codiceAzienda = ?;";
+    	boolean res = false;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setInt(1, id);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  int foundId = resultSet.getInt("codiceAzienda");
+            	  if (foundId != 0) {
+            		  res = true;
+            	  }
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    	return res;
+    }
+    
+    public void deleteCompany(int code) {
+    	String query = "DELETE FROM `fairdb`.`" + TABLE_NAME + "` WHERE (`codiceAzienda` = ?);";
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, code);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
 }

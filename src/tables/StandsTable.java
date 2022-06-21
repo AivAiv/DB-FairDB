@@ -60,4 +60,48 @@ public class StandsTable {
         	return res;
     }
     
+    public boolean checkId(int id) {
+    	String query = "SELECT codicePadiglione FROM " + TABLE_NAME + " WHERE codicePadiglione = ?;";
+    	boolean res = false;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setInt(1, id);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  int foundId = resultSet.getInt("codicePadiglione");
+            	  if (foundId != 0) {
+            		  res = true;
+            	  }
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    	return res;
+    }
+    
+    public void deleteStand(int code) {
+    	String query = "DELETE FROM `fairdb`.`" + TABLE_NAME + "` WHERE (`codicePadiglione` = ?);";
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, code);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public int findStandNum(String spec) {
+    	String query = "SELECT codicePadiglione FROM fairdb." + TABLE_NAME + " WHERE specializzazioneRichiesta = ?;";
+    	int res = 0;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setString(1, spec);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  int codPad = resultSet.getInt("codicePadiglione");
+            	  res = codPad;
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    	return res;
+    }
+    
 }

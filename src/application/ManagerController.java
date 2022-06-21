@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.Date;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import Utilities.ConnectionProvider;
 import javafx.collections.FXCollections;
@@ -17,16 +19,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import structures.Stand;
+import tables.CompaniesTable;
 import tables.DaysTable;
+import tables.ProductsTable;
+import tables.StaffTable;
 import tables.StandsTable;
+import tables.TurnsTable;
 
 public class ManagerController implements Initializable {
 	
@@ -35,9 +43,14 @@ public class ManagerController implements Initializable {
     final static String dbName = "fairdb";
 
 	private Stage stage;
+	private int randnum;
 	final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
 	final static DaysTable daysTable = new DaysTable(connectionProvider.getMySQLConnection());
 	final static StandsTable standsTable = new StandsTable(connectionProvider.getMySQLConnection());
+	final static CompaniesTable companiesTable = new CompaniesTable(connectionProvider.getMySQLConnection());
+	final static ProductsTable productsTable = new ProductsTable(connectionProvider.getMySQLConnection());
+	final static TurnsTable turnsTable = new TurnsTable(connectionProvider.getMySQLConnection());
+	final static StaffTable staffTable = new StaffTable(connectionProvider.getMySQLConnection());
 
 	@FXML
 	private Spinner<Time> spnApertura;
@@ -65,6 +78,42 @@ public class ManagerController implements Initializable {
 	private TextField txtSpaziTot;
 	@FXML
 	private TextField txtSpaziOcc;
+	@FXML
+	private TextField txtSpecializzazione;
+	@FXML
+	private TextField txtCancellaPadiglione;
+	
+    @FXML
+    private TextField txtDenominazione;
+    @FXML
+    private ComboBox<String> cmbSpecializzazione;
+    @FXML
+    private Label lblPadiglioneAz;
+    @FXML
+    private TextField txtCancellaAzienda;
+    
+
+    @FXML
+    private TextField txtCancellaProdotto;
+    @FXML
+    private TextField txtNomeProd;
+    @FXML
+    private TextField txtPrezzoProd;
+    @FXML
+    private TextArea txtDescrizioneProd;
+    @FXML
+    private ComboBox<Integer> cmbAzienda;
+    
+    @FXML
+    private ComboBox<Date> cmbGiorno;
+    @FXML
+    private ComboBox<Integer> cmbPadiglione;
+    @FXML
+    private Spinner<Time> spnOrario;
+    @FXML
+    private ComboBox<String> cmbCodiceFiscalePers;
+    @FXML
+    private TextField txtCancellaTurno;
 	
 	@Override
 	public void initialize (URL url, ResourceBundle rb) {
@@ -82,12 +131,15 @@ public class ManagerController implements Initializable {
 
 		SpinnerValueFactory<Time> valueFactory1 = new SpinnerValueFactory.ListSpinnerValueFactory<Time>(hours);
 		SpinnerValueFactory<Time> valueFactory2 = new SpinnerValueFactory.ListSpinnerValueFactory<Time>(hours);
+		SpinnerValueFactory<Time> valueFactory3 = new SpinnerValueFactory.ListSpinnerValueFactory<Time>(hours);
 
 		valueFactory1.setValue(new Time(-2211714000000L));
 		valueFactory2.setValue(new Time(-2211714000000L));
+		valueFactory3.setValue(new Time(-2211714000000L));
 		       
 		spnApertura.setValueFactory(valueFactory1);
 		spnChiusura.setValueFactory(valueFactory2);
+		spnOrario.setValueFactory(valueFactory3);
 		
 		// Sets up the children places combobox.
 		cmbBambini.getItems().clear();
@@ -105,6 +157,19 @@ public class ManagerController implements Initializable {
 		 colSpaziOcc.setCellValueFactory(new PropertyValueFactory<Stand,Integer>("numSpaziEsposizioneOccupati"));
 		 
 		 tblPadiglioni.setItems(standsList);
+		 
+		 cmbSpecializzazione.getItems().clear();
+		 cmbSpecializzazione.getItems().addAll(standsTable.getAllStands().stream().map(s -> s.getSpecialization()).collect(Collectors.toList()));
+		 
+		 cmbAzienda.getItems().clear();
+		 cmbAzienda.getItems().addAll(companiesTable.getAllCompaniesCodes());
+		 
+		 cmbPadiglione.getItems().clear();
+		 cmbPadiglione.getItems().addAll(standsTable.getAllStands().stream().map(s -> s.getStandCod()).collect(Collectors.toList()));
+		 cmbCodiceFiscalePers.getItems().clear();
+		 cmbCodiceFiscalePers.getItems().addAll(staffTable.getAllStaffCF());
+		 cmbGiorno.getItems().clear();
+		 cmbGiorno.getItems().addAll(daysTable.getAllDays());
 	}
 
 	public void goBack(ActionEvent event) throws IOException {
@@ -123,39 +188,101 @@ public class ManagerController implements Initializable {
 			if (occupiedSpaces > totalSpaces) {
 				throw new Exception();
 			}
+			Random rand = new Random();
+	    	boolean assigned = false;
+	    	while(assigned == false) {
+	    		randnum = rand.nextInt(200)+1;
+	    		System.out.println(randnum);
+	    		if (standsTable.checkId(randnum) == false) {
+	    			standsTable.addStand(randnum, txtSpecializzazione.getText(), spnApertura.getValue(), spnChiusura.getValue(), cmbBambini.getValue(), totalSpaces, occupiedSpaces);
+	    			assigned = true;
+	    		}
+	    	}
 		} catch (IllegalArgumentException arg) {
 			System.out.println("Devi inserire per forza un numero!!");
 		}catch (Exception e) {
-			System.out.println("Non � possibile occupare pi� spazi di quelli totali!");
+			System.out.println("Non è possibile occupare più spazi di quelli totali!");
 		}
 	}
 	
 	public void btnDeleteStand(ActionEvent event) throws IOException {
-	    System.out.println("DeleteStand");
-        }
+	    try {
+			int code = Integer.parseInt(txtCancellaPadiglione.getText());
+			standsTable.deleteStand(code);
+		} catch (IllegalArgumentException arg) {
+			System.out.println("Devi inserire per forza un numero!!");
+		}
+    }
 	
 	public void btnAddCompany(ActionEvent event) throws IOException {
-	    System.out.println("AddCompany");
-        }
+	    Random rand = new Random();
+    	boolean assigned = false;
+    	while(assigned == false) {
+    		randnum = rand.nextInt(200)+1;
+    		if (companiesTable.checkId(randnum) == false) {
+    			int num = standsTable.findStandNum(cmbSpecializzazione.getValue());
+    			//lblPadiglioneAz.setText(String.valueOf(num));
+    		    companiesTable.addCompany(randnum, txtDenominazione.getText(), cmbSpecializzazione.getValue(), num);
+    			assigned = true;
+    		}
+    	}
+    }
 	
 	public void btnDeleteCompany(ActionEvent event) throws IOException {
-	    System.out.println("btnDeleteCompany");
-        }
+	    try {
+			int code = Integer.parseInt(txtCancellaAzienda.getText());
+			companiesTable.deleteCompany(code);
+		} catch (IllegalArgumentException arg) {
+			System.out.println("Devi inserire per forza un numero!!");
+		}
+    }
 	
 	public void btnAddProduct(ActionEvent event) throws IOException {
-	    System.out.println("btnAddProduct");
-        }
+	    Random rand = new Random();
+    	boolean assigned = false;
+    	while(assigned == false) {
+    		randnum = rand.nextInt(200)+1;
+    		if (companiesTable.checkId(randnum) == false) {
+    			try {
+    				int price = Integer.parseInt(txtPrezzoProd.getText());
+    				productsTable.addProduct(randnum, txtNomeProd.getText(), price, txtDescrizioneProd.getText(), cmbAzienda.getValue());
+    			} catch (IllegalArgumentException arg) {
+    				System.out.println("Devi inserire per forza un numero!!");
+    			}
+    			
+    			assigned = true;
+    		}
+    	} 
+    }
 	
 	public void btnDeleteProduct(ActionEvent event) throws IOException {
-	    System.out.println("btnDeleteProduct");
-        }
+		try {
+			int code = Integer.parseInt(txtCancellaProdotto.getText());
+			productsTable.deleteProduct(code);
+		} catch (IllegalArgumentException arg) {
+			System.out.println("Devi inserire per forza un numero!!");
+		}
+    }
 	
 	public void btnAddTurn(ActionEvent event) throws IOException {
-	    System.out.println("btnAddTurn");
-        }
+		Random rand = new Random();
+    	boolean assigned = false;
+    	while(assigned == false) {
+    		randnum = rand.nextInt(200)+1;
+    		if (companiesTable.checkId(randnum) == false) {
+    			turnsTable.addTurn(randnum, cmbGiorno.getValue(), spnOrario.getValue(), cmbCodiceFiscalePers.getValue(), cmbPadiglione.getValue());
+    			assigned = true;
+    		}
+    	} 
+    }
         
         public void btnDeleteTurn(ActionEvent event) throws IOException {
-            System.out.println("btnDeleteTurn");
+            try {
+    			int code = Integer.parseInt(txtCancellaTurno.getText());
+    			turnsTable.deleteTurn(code);
+    		} catch (IllegalArgumentException arg) {
+    			System.out.println("Devi inserire per forza un numero!!");
+    		}
         }
 	
 }

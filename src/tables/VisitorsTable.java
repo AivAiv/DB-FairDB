@@ -19,7 +19,7 @@ public class VisitorsTable {
     }
     
     public void addVisitor(String fiscalCode, String name, String surname, Date birthDate, String gender) {
-    	String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codice fiscale`, `nome`, `cognome`, `data nascita`, `sesso`) VALUES (?, ?, ?, ?, ?);";
+    	String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codiceFiscale`, `nome`, `cognome`, `dataNascita`, `sesso`) VALUES (?, ?, ?, ?, ?);";
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
             statement.setString(1, fiscalCode);
             statement.setString(2, name);
