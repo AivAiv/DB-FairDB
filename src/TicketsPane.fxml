@@ -84,13 +84,13 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="341.0" prefWidth="344.0">
                            <children>
-                              <TableView layoutX="14.0" layoutY="14.0" prefHeight="341.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="tblBiglietti" layoutX="14.0" layoutY="14.0" prefHeight="341.0" prefWidth="379.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="147.0" text="Codice fiscale" />
-                                  <TableColumn prefWidth="77.0" text="Nome" />
-                                    <TableColumn prefWidth="83.0" text="Cognome" />
-                                    <TableColumn prefWidth="85.0" text="Codice ordine" />
-                                    <TableColumn minWidth="7.0" prefWidth="93.0" text="Tipo biglietto" />
+                                  <TableColumn fx:id="colCF" prefWidth="147.0" text="Codice fiscale" />
+                                  <TableColumn fx:id="colNome" prefWidth="77.0" text="Nome" />
+                                    <TableColumn fx:id="colCognome" prefWidth="83.0" text="Cognome" />
+                                    <TableColumn fx:id="colCodOrd" prefWidth="85.0" text="Codice ordine" />
+                                    <TableColumn fx:id="colBiglietto" minWidth="7.0" prefWidth="93.0" text="Tipo biglietto" />
                                 </columns>
                               </TableView>
                            </children>

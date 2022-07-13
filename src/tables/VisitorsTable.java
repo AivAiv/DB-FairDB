@@ -2,11 +2,13 @@ package tables;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
 import Utilities.Utils;
+import structures.Visitor;
 
 public class VisitorsTable {
 	
@@ -30,6 +32,36 @@ public class VisitorsTable {
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
+    }
+    
+    public void deleteVisitor(String cf) {
+    	String query = "DELETE FROM `fairdb`.`" + TABLE_NAME + "` WHERE (`codiceFiscale` = ?);";
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, cf);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public Visitor findVisitor(String cf) {
+    	String query = "SELECT * FROM fairdb.`" + TABLE_NAME + "` WHERE codiceFiscale = ?;";
+    	Visitor res = null;
+    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    		statement.setString(1, cf);
+            final ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+            	  String codFis = resultSet.getString("codiceFiscale");
+            	  String name = resultSet.getString("nome");
+            	  String surn = resultSet.getString("cognome");
+            	  Date data = resultSet.getDate("dataNascita");
+            	  String gender = resultSet.getString("sesso");
+            	  res = new Visitor(codFis, name, surn, data, gender);
+            }
+        } catch (final SQLException e) { 
+            throw new IllegalStateException(e);
+        }
+    	return res;
     }
 
 }

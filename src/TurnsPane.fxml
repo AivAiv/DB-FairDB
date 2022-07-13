@@ -28,13 +28,13 @@
                   </Label>
                </children>
             </AnchorPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tblTurni" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-                  <TableColumn prefWidth="75.0" text="Column X" />
-                  <TableColumn prefWidth="75.0" text="Column X" />
-                  <TableColumn prefWidth="82.0" text="Column X" />
+                <TableColumn fx:id="colCodTurno" prefWidth="88.0" text="Codice turno" />
+                <TableColumn fx:id="colGiorno" prefWidth="69.0" text="Giorno" />
+                  <TableColumn fx:id="ColOrario" prefWidth="68.0" text="Orario" />
+                  <TableColumn fx:id="colCF" prefWidth="161.0" text="Codice Fiscale" />
+                  <TableColumn fx:id="colPadiglione" text="Padiglione" />
               </columns>
             </TableView>
          </items>

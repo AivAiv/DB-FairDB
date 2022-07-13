@@ -14,6 +14,7 @@ import static java.util.Calendar.*;
 import Utilities.ConnectionProvider;
 import Utilities.Triplet;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +23,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import structures.OVT;
+import structures.OrderVisitor;
 import structures.Promotion;
 import structures.Visitor;
 import tables.DaysTable;
@@ -49,7 +56,10 @@ public class TicketsController {
     private int childrenNum;
     private Promotion promo;
     private double sum = 0;
+    private Triplet<Visitor,Date,String> delete;
     int randnum = 0;
+    
+    private ObservableList<OrderVisitor> ovList;
     
     @FXML
     private TextField txtCodiceFiscale;
@@ -81,6 +91,22 @@ public class TicketsController {
     private TextField txtTrovaBiglietto;
     @FXML
     private TextField txtTrovaOrdine;
+    
+    @FXML
+    private TableColumn<OrderVisitor, String> colCF;
+    @FXML
+    private TableColumn<OrderVisitor, String> colNome;
+    @FXML
+    private TableColumn<OrderVisitor, String> colCognome;
+    @FXML
+    private TableColumn<OrderVisitor, Integer> colCodOrd;
+    @FXML
+    private TableColumn<OrderVisitor, String> colBiglietto;
+    @FXML
+    private TableView<OrderVisitor> tblBiglietti;
+    
+    @FXML
+    private Label lblTotale;
     
     final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
     final static VisitorsTable visitorsTable = new VisitorsTable(connectionProvider.getMySQLConnection());
@@ -125,6 +151,7 @@ public class TicketsController {
     	visitors.forEach(v -> {
     		if (v.getFiscalCode().equals(txtCancellaVisitatore.getText())) {
     			visitors.remove(v);
+    			visitorsTable.deleteVisitor(v.getFiscalCode());
     		}
     	});
     	lstVisitatori.setItems(FXCollections.observableArrayList(visitors.stream().map(v -> v.toString()).collect(Collectors.toList())));
@@ -142,15 +169,20 @@ public class TicketsController {
     	lstOrdine.setItems(FXCollections.observableArrayList(orderRecords.stream().map(v -> v.getFirst().toString().concat(" --- " + v.getSecond() + " " + v.getThird())).collect(Collectors.toList())));
     	visitors.clear();
     	lstVisitatori.setItems(FXCollections.observableArrayList(visitors.stream().map(v -> v.toString()).collect(Collectors.toList())));
+    	lblTotale.setText(String.valueOf(this.getTotal()));
     }
     
     public void btnClearTicket(ActionEvent event) throws IOException {
     	orderRecords.forEach(or -> {
     		if (or.getFirst().getFiscalCode().equals(txtCancellaBiglietto.getText())) {
-    			orderRecords.remove(or);
+    			delete = or;
     		}
     	});
+    	orderRecords.remove(delete);
     	lstOrdine.setItems(FXCollections.observableArrayList(orderRecords.stream().map(v -> v.getFirst().toString().concat(" --- " + v.getSecond() + " " + v.getThird())).collect(Collectors.toList())));
+    	promo = null;
+    	this.btnAddPromo(event);
+    	lblTotale.setText(String.valueOf(this.getTotal()));
     	txtCancellaBiglietto.setText("");
     }
     
@@ -202,12 +234,14 @@ public class TicketsController {
     	}
     	
     	lstOrdine.setItems(FXCollections.observableArrayList(templst));
+    	lblTotale.setText(String.valueOf(this.getTotal()));
     	childrenNum = 0;
     }
     
     public void btnClearPromo(ActionEvent event) throws IOException {
     	lstOrdine.setItems(FXCollections.observableArrayList(orderRecords.stream().map(v -> v.getFirst().toString().concat(" --- " + v.getSecond() + " " + v.getThird())).collect(Collectors.toList())));
     	promo = null;
+    	lblTotale.setText(String.valueOf(this.getTotal()));
     }
     
     public void btnConfirmOrder(ActionEvent event) throws IOException {
@@ -224,16 +258,53 @@ public class TicketsController {
     	orderRecords.forEach( or -> {
     		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), or.getSecond());
     	});
+    	
+    	lblTotale.setText("00,00");
     }
     
     public void btnFindTicket(ActionEvent event) throws IOException {
-    	ovtTable.findTicket(txtTrovaBiglietto.getText());
+    	List<OVT> ovtList = ovtTable.findOVT(txtTrovaBiglietto.getText());
+    	Visitor vis = visitorsTable.findVisitor(txtTrovaBiglietto.getText());
+    	List<OrderVisitor> ov = new LinkedList<>();
+    	ovtList.forEach(ovt -> {
+    		ov.add(new OrderVisitor(vis.getFiscalCode(), vis.getName(), vis.getSurname(), ovt.getIdOrder(), ovt.getIdTicket()));
+    	});
+    	
+    	ovList = FXCollections.observableArrayList(ov);
+		
+	    colCF.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("fiscalCode"));
+	    colNome.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("name"));
+	    colCognome.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("surname"));
+	    colCodOrd.setCellValueFactory(new PropertyValueFactory<OrderVisitor,Integer>("idOrder"));
+	    colBiglietto.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("idTicket"));
+	    
+		tblBiglietti.setItems(ovList);
+		
+		txtTrovaBiglietto.setText("");
     }
     
     public void btnFindOrder(ActionEvent event) throws IOException {
 	    try {
 			int order = Integer.parseInt(txtTrovaOrdine.getText());
-			ordersTable.findOrder(order);
+			
+			List<OVT> ovtList = ovtTable.findOVT(order);
+	    	List<OrderVisitor> ov = new LinkedList<>();
+	    	ovtList.forEach(ovt -> {
+	    		Visitor vis = visitorsTable.findVisitor(ovt.getIdVisitor());
+	    		ov.add(new OrderVisitor(vis.getFiscalCode(), vis.getName(), vis.getSurname(), ovt.getIdOrder(), ovt.getIdTicket()));
+	    	});
+	    	
+	    	ovList = FXCollections.observableArrayList(ov);
+			
+		    colCF.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("fiscalCode"));
+		    colNome.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("name"));
+		    colCognome.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("surname"));
+		    colCodOrd.setCellValueFactory(new PropertyValueFactory<OrderVisitor,Integer>("idOrder"));
+		    colBiglietto.setCellValueFactory(new PropertyValueFactory<OrderVisitor,String>("idTicket"));
+		    
+			tblBiglietti.setItems(ovList);
+			
+			txtTrovaOrdine.setText("");
 		} catch (IllegalArgumentException arg) {
 			System.out.println("Devi inserire per forza un numero!!");
 		}
@@ -248,8 +319,6 @@ public class TicketsController {
     private int getDiffYears(Date first, Date last) {
         Calendar a = getCalendar(first);
         Calendar b = getCalendar(last);
-        System.out.println("gdy: b - " + b.get(YEAR));
-        System.out.println("gdy: a - " + a.get(YEAR));
         int diff = b.get(YEAR) - a.get(YEAR);
         if (a.get(MONTH) > b.get(MONTH) || 
             (a.get(MONTH) == b.get(MONTH) && a.get(DATE) > b.get(DATE))) {
@@ -259,17 +328,19 @@ public class TicketsController {
     }
 
     private double getTotal() {
+    	sum = 0;
         orderRecords.forEach(or -> {
         	sum += ticketsTable.getTicketPrice(or.getThird());
         });
+        if (promo != null) {
+        	sum = sum - (sum * promo.getPercDiscount() / 100);
+        }
         return sum;
    }
     
     private Calendar getCalendar(Date date) {
         Calendar cal = Calendar.getInstance();
-        System.out.println("before: " + cal);
         cal.setTime(date);
-        System.out.println("after: " + cal);
         return cal;
     }
     

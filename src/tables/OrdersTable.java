@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import Utilities.Utils;
+import structures.Order;
 import structures.Promotion;
 
 public class OrdersTable {
@@ -55,9 +56,9 @@ public class OrdersTable {
     	return res;
     }
     
-    public void findOrder(int code) {
+    public Order findOrder(int code) {
     	String query = "SELECT * FROM fairdb." + TABLE_NAME + " WHERE codiceOrdine = ?;";
-    	//Ticket res;
+    	Order res = null;
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
     		statement.setInt(1, code);
             final ResultSet resultSet = statement.executeQuery();
@@ -66,13 +67,12 @@ public class OrdersTable {
             	  Date day = resultSet.getDate("giorno");
             	  double total = resultSet.getDouble("saldoTotale");
             	  String promo = resultSet.getString("codPromozione");
-            	  //res = new Ticket();
-            	  System.out.println(codOrd + " " + day + " " + total + " " + promo);
+            	  res = new Order(codOrd, day, total, promo);
             }
         } catch (final SQLException e) { 
             throw new IllegalStateException(e);
         }
-    	//return res;
+    	return res;
     }
     
 }

@@ -58,7 +58,7 @@ public class ManagerController implements Initializable {
 	final static ProductsTable productsTable = new ProductsTable(connectionProvider.getMySQLConnection());
 	final static TurnsTable turnsTable = new TurnsTable(connectionProvider.getMySQLConnection());
 	final static StaffTable staffTable = new StaffTable(connectionProvider.getMySQLConnection());
-
+	
 	@FXML
 	private Spinner<Time> spnApertura;
 	@FXML
@@ -239,7 +239,7 @@ public class ManagerController implements Initializable {
 		
 		tblProdotti.setItems(productsList);
 		
-		// Fills the products table.
+		// Fills the turns table.
 		turnsList = FXCollections.observableArrayList(turnsTable.getAllTurns());
 		
 		colCodiceTurno.setCellValueFactory(new PropertyValueFactory<Turn,Integer>("cod"));
@@ -307,7 +307,6 @@ public class ManagerController implements Initializable {
     		randnum = rand.nextInt(200)+1;
     		if (companiesTable.checkId(randnum) == false) {
     			int num = standsTable.findStandNum(cmbSpecializzazione.getValue());
-    			//lblPadiglioneAz.setText(String.valueOf(num));
     		    companiesTable.addCompany(randnum, txtDenominazione.getText(), cmbSpecializzazione.getValue(), num);
     		    this.updateCompanyTable();
     			assigned = true;
@@ -315,6 +314,7 @@ public class ManagerController implements Initializable {
     	}
     	
     	txtDenominazione.setText("");
+    	lblPadiglioneAz.setText("0");
     }
 	
 	public void btnDeleteCompany(ActionEvent event) throws IOException {
@@ -406,6 +406,10 @@ public class ManagerController implements Initializable {
     public void updateTurnsTable(){
     	turnsList = FXCollections.observableArrayList(turnsTable.getAllTurns());
 		tblTurni.setItems(turnsList);
+    }
+    
+    public void updateStandNum(ActionEvent event) throws IOException{
+    	lblPadiglioneAz.setText(String.valueOf(standsTable.findStandNum(cmbSpecializzazione.getValue())));
     }
 	
 }

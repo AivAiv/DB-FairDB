@@ -4,15 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import Utilities.Utils;
 import structures.Company;
-import structures.Stand;
 
 public class CompaniesTable {
     

@@ -7,9 +7,9 @@ public class Order {
 	private int idOrder;
     private Date day;
     private double total;
-    private Promotion promo;
+    private String promo;
     
-    public Order(int idOrder, Date day, double total, Promotion promo) {
+    public Order(int idOrder, Date day, double total, String promo) {
         this.idOrder = idOrder;
     	this.day = day;
         this.total = total;
@@ -28,7 +28,7 @@ public class Order {
         return this.total;
     }
     
-    public Promotion getPromotion() {
+    public String getPromotion() {
     	return this.promo;
     }
     

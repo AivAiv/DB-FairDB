@@ -66,9 +66,9 @@ public static final String TABLE_NAME = "turni";
         }
     }
     
-    public void findTurn(String cf) {
+    public List<Turn> findTurn(String cf) {
     	String query = "SELECT * FROM fairdb." + TABLE_NAME + " WHERE codiceFiscale = ?;";
-    	//res;
+    	List<Turn> res = new LinkedList<>();
     	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
     		statement.setString(1, cf);
             final ResultSet resultSet = statement.executeQuery();
@@ -78,12 +78,12 @@ public static final String TABLE_NAME = "turni";
             	  Time time = resultSet.getTime("orario");
             	  String codf = resultSet.getString("codiceFiscale");
             	  int pad = resultSet.getInt("padiglione");
-            	  //res = ;
-            	  System.out.println(codTurn + " " + day + " " + time + " " + codf + " " + pad);
+            	  res.add(new Turn(codTurn, day, time, codf, pad));
             }
         } catch (final SQLException e) { 
             throw new IllegalStateException(e);
         }
+    	return res;
     }
     
 }
