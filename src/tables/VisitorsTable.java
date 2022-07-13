@@ -21,17 +21,27 @@ public class VisitorsTable {
     }
     
     public void addVisitor(String fiscalCode, String name, String surname, Date birthDate, String gender) {
-    	String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codiceFiscale`, `nome`, `cognome`, `dataNascita`, `sesso`) VALUES (?, ?, ?, ?, ?);";
-    	try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setString(1, fiscalCode);
-            statement.setString(2, name);
-            statement.setString(3, surname);
-            statement.setDate(4, Utils.dateToSqlDate(birthDate));
-            statement.setString(5, gender);
-            statement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
+    	// Checks if the visitor already exists, if not adds it into the database.
+    	if (findVisitor(fiscalCode) == null) {
+    		String query = "INSERT INTO `fairdb`.`" + TABLE_NAME + "` (`codiceFiscale`, `nome`, `cognome`, `dataNascita`, `sesso`) VALUES (?, ?, ?, ?, ?);";
+    		try (final PreparedStatement statement = this.connection.prepareStatement(query)) {
+    			statement.setString(1, fiscalCode);
+    			statement.setString(2, name);
+    			statement.setString(3, surname);
+    			statement.setDate(4, Utils.dateToSqlDate(birthDate));
+    			statement.setString(5, gender);
+    			statement.executeUpdate();
+    		} catch (final SQLException e) {
+    			throw new IllegalStateException(e);
+    		}
+    	} else {
+    		Visitor newV = new Visitor(fiscalCode, name, surname, birthDate, gender);
+    		Visitor oldV = findVisitor(fiscalCode);
+    		if (!(newV.getName().equals(oldV.getName()) && newV.getSurname().equals(oldV.getSurname()) 
+    			&& newV.getBirthDate().equals(oldV.getBirthDate()) && newV.getGender().equals(oldV.getGender()))) {
+    			throw new IllegalStateException("A different person has the same primary key");
+	    	}
+    	}
     }
     
     public void deleteVisitor(String cf) {

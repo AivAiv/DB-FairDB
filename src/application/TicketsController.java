@@ -259,6 +259,8 @@ public class TicketsController {
     		ovtTable.addOVT(or.getFirst().getFiscalCode(), randnum,  or.getThird(), or.getSecond());
     	});
     	
+    	lstOrdine.setItems(FXCollections.observableArrayList());
+    	orderRecords.clear();
     	lblTotale.setText("00,00");
     }
     

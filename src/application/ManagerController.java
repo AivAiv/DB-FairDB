@@ -314,7 +314,6 @@ public class ManagerController implements Initializable {
     	}
     	
     	txtDenominazione.setText("");
-    	lblPadiglioneAz.setText("0");
     }
 	
 	public void btnDeleteCompany(ActionEvent event) throws IOException {
