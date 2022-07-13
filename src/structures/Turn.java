@@ -10,7 +10,8 @@ public class Turn {
     private String cf;
     private int codStand;
     
-    public Turn(int cod, Date day, Time time, String cf, int codStand) {
+    @SuppressWarnings("exports")
+	public Turn(int cod, Date day, Time time, String cf, int codStand) {
         this.cod = cod;
         this.day = day;
         this.time = time;
@@ -26,7 +27,8 @@ public class Turn {
         return this.day;
     }
     
-    public Time getTime() {
+    @SuppressWarnings("exports")
+	public Time getTime() {
         return this.time;
     }
     

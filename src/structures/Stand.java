@@ -13,7 +13,8 @@ public class Stand {
     private final int expTot;
     private final int expOcc;
     
-    public Stand(int standCod, String specialization, Time open, Time close, Date children, int expTot, int expOcc) {
+    @SuppressWarnings("exports")
+	public Stand(int standCod, String specialization, Time open, Time close, Date children, int expTot, int expOcc) {
         this.standCod = standCod;
         this.specialization = specialization;
         this.open = open;
@@ -31,11 +32,13 @@ public class Stand {
         return this.specialization;
     }
     
-    public Time getOpen() {
+    @SuppressWarnings("exports")
+	public Time getOpen() {
         return this.open;
     }
     
-    public Time getClose() {
+    @SuppressWarnings("exports")
+	public Time getClose() {
     	return this.close;
     }
     
